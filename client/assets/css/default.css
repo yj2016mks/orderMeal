@@ -1,0 +1,18 @@
+*{margin:0px;padding:0px;}
+body{font-family:"Microsoft YaHei","SimHei","SimSun";font-size: 16px;background-color: #f5f5f5;color:#333;}
+.clear{clear:both;}
+img{border:0px;}
+ul,li{list-style:none;}
+a{text-decoration:none;}
+select{font-family:"Microsoft YaHei","arial","SimHei","SimSun";}
+input{font-family:"Microsoft YaHei","arial","SimHei","SimSun";outline:medium;}
+.rltv{position:relative;z-index:9999;}
+.fl{float:left}
+.fr{float:right}
+.clear-float:after{
+    clear: both;
+    display: block;
+    content: "";
+    height: 0;
+}
+h1,h2,h3,h4,h5,h6{font-weight: 300;}
