@@ -1,0 +1,127 @@
+.dash-tip{
+    height: 140px;
+    line-height: 140px;
+}
+.dash-time{
+    font-size: 24px;
+    color: #999;
+}
+.dash-time em{
+    font-style: normal;
+    color:  #4696E7;
+    font-weight: 900;
+}
+.dishes-content{
+    width: 900px;
+    padding-bottom: 10px;
+}
+.cart-content{
+    background: #3D5B94;
+}
+.dishes-content li{
+    width: 280px;
+    float: left;
+    margin-right: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);
+}
+.dishes-content .dash-img{
+    width: 280px;
+    height: 160px;
+    overflow: hidden;
+    /*background-image:url(../images/cai1.png);
+    background-position: center;
+    background-size: cover;*/
+}
+.dishes-content .dash-img img{
+    width: 100%;
+}
+.dishes-content .dash-con{
+    padding: 10px 20px 15px 20px;
+}
+.dishes-content .dash-con h5{
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: 400;
+}
+.dishes-content .dash-con label{
+    color: #999;
+    font-size: 12px;
+}
+.dishes-content .dash-con>div{
+    margin-top: 10px;
+}
+.dishes-content .dash-con>div>span{
+    color: #4696E7;
+    font-size: 12px;
+}
+.addFirst,.dash-num{float: right;}
+.dash-con .dash-num{
+    display: none;
+}
+.dishes-content .dash-con .addFirst span{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #4696E7;
+    padding-top: 3px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    text-align: center;
+}
+.dash-con .addFirst i{
+    font-size: 12px;
+    color: #fff;
+}
+.cart-content{
+    width: 300px;
+    background-color: #fff;
+    padding: 10px 30px 20px 30px;
+    box-sizing: border-box;
+    margin-top: 20px;
+}
+.cart-content h5{
+    font-size: 16px;
+    color: #999;
+    line-height: 50px;
+    font-weight: 400;
+    border-bottom: 1px solid #eee;
+}
+.cart-content .dash-num{
+    margin-top: 15px;
+}
+.cart-content ul{
+    min-height: 123px;
+}
+.cart-content li{
+    line-height: 50px;
+}
+.cart-content .cart-note{
+    width: 240px;
+    height: 36px;
+    border: none;
+}
+.cart-content .cart-note input{
+    width: 100%;
+    height: 100%;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+.cart-content button{
+    width: 240px;
+    height: 36px;
+    background-color:  #4696E7;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    margin-top: 18px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);
+}
+.bin-btn{
+    background-color: #b5d5f5 !important;
+}
+.cartlist-null{
+    background: url(/static/images/cartlist_null.png) no-repeat center;
+}

@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <img src="./assets/login_backg.png">
     <router-view/>
   </div>
 </template>
@@ -16,98 +15,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
-html,body{height: 100%;}
-.login-box{
-    background-image: url(./assets/login_backg.png);
-    background-repeat:no-repeat;
-    background-position: center;
-    height: 100%;
-}
-.login-r{
-    width: 50%;
-    height: 100%;
-    padding: 30px;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    background-image: url(./assets/login_r.png);
-    background-repeat:no-repeat;
-    background-position: center;
-    box-sizing: border-box;
-}
-.login-wrap{
-    width: 380px;
-    height: 420px;
-    padding: 30px;
-    box-shadow: 0 0 40px 0 rgba(0,0,0,0.10);
-    position: absolute;
-    right: 10%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    background-color: #fff;
-    box-sizing: border-box;
-    border-radius: 6px;
-}
-.back-img:after{
-    content: '';
-    width: 903px;
-    height: 600px;
-    background-image: url(./assets/login_r.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    box-sizing: border-box;
-    position: absolute;
-    z-index: -3;
-    top: -21%;
-    left: -65%;
-}
-.login-input-user-box{
-    margin-top: 50px;
-    margin-bottom: 20px;
-}
-.error-msg{
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-}
-.login-row-sub{
-    position: absolute;
-    bottom: 30px;
-}
-.login-font{
-    font-size: 24px;
-    color: #333;
-    
-}
-.input-login{
-    width: 320px;
-    height: 40px;
-    background: #F5F5F5;
-    border: 1px solid #E5E5E5;
-    border-radius: 3px;
-}
-.login-button{
-    width: 320px;
-    height: 40px;
-    background-image: linear-gradient(-135deg, #4696E7 0%, #3999E3 100%);
-    border-radius: 3px;
-    border: none;
-    color: #fff;
-}
-.download-client button{
-    border: none;
-    width: 320px;
-    background: #fff;
-    color: #4696e7;
-    margin-top: 10px;
-    outline:none;
-}
-.download-client button:hover{
-    cursor: pointer;
-}
-
 </style>

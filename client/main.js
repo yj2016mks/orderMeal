@@ -7,6 +7,7 @@ import axios from 'axios'
 
 import './assets/css/default.css'
 import './assets/css/public.css'
+import './assets/iconfont/iconfont.css'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios

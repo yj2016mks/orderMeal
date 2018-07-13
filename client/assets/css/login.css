@@ -1,6 +1,6 @@
-html,body{height: 100%;}
+
 .login-box{
-    background-image: url(../images/login_backg.png);
+    background-image: url(/static/images/login_backg.png);
     background-repeat:no-repeat;
     background-position: center;
     height: 100%;
@@ -13,7 +13,7 @@ html,body{height: 100%;}
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    background-image: url(../images/login_r.png);
+    background-image: url(/static/images/login_r.png);
     background-repeat:no-repeat;
     background-position: center;
     box-sizing: border-box;
@@ -35,7 +35,7 @@ html,body{height: 100%;}
     content: '';
     width: 903px;
     height: 600px;
-    background-image: url(../images/login_r.png);
+    background-image: url(/static/images/login_r.png);
     background-repeat: no-repeat;
     background-position: center;
     box-sizing: border-box;

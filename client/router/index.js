@@ -12,7 +12,7 @@ export default new Router({
       name: 'UserLogins',
       component: UserLogins
     },{
-      path: '/',
+      path: '/myitems',
       name: 'MyItems',
       component: MyItems
     }
