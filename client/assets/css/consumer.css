@@ -57,9 +57,6 @@
     font-size: 12px;
 }
 .addFirst,.dash-num{float: right;}
-.dash-con .dash-num{
-    display: none;
-}
 .dishes-content .dash-con .addFirst span{
     display: inline-block;
     width: 20px;

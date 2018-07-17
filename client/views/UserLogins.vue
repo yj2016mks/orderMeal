@@ -45,12 +45,17 @@ export default {
         name:this.username,
         password:this.userpwd
       }
-      this.$http.post('/login',params).then((response) => {console.log(response)
+      this.$http.post('/login',params).then((response) => {
         if(response.data.status == '0') {
           this.errtip = response.data.msg;
         } else {
           this.errtip = response.data.msg;
-          this.$router.push({path:'/myitems'})
+          this.$router.push({
+            path:'/myitems/',
+            query:{
+              name:this.username
+            }
+          })
         }
       })
     }

@@ -22,7 +22,7 @@ router.post('/',function(req,res,next) {
         name : req.body.name,
         password : req.body.password,
     };
-    Login.findOne(param,function(err,doc) {console.log(doc);console.log(err)
+    Login.findOne(param,function(err,doc) {
         if(err) {
             res.json({
                 status:'0',

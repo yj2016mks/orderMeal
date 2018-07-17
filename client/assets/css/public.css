@@ -109,17 +109,16 @@ header>div{display: inline-block;}
     text-align: center;
     float: left;
     border-radius: 3px;
+    padding:0 10px;
 }
 .head-btn span:hover{
     cursor: pointer;
 }
 .head-btn span:first-child{
-    width: 115px;
     margin-right: 16px;
     font-size: 14px;
 }
 .head-btn span:last-child{
-    width: 36px;
     margin-right: 0;
 }
 .head-btn span:last-child a{
