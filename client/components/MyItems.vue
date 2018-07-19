@@ -31,12 +31,12 @@
                                 <div>
                                     <span>已售：{{item.quantity}}</span>
                                     <div class="addFirst" v-show='item.isaddfirst' v-on:click='addfirstitem(item)'>
-                                        <span><i class="iconfont icon-custom-add"></i></span>
+                                        <span><i class="iconfont icon-jia"></i></span>
                                     </div>
                                     <div class="dash-num" v-show='!item.isaddfirst'>
-                                        <span class="minusBtn" v-on:click='minusitem(item,"food")'><i class="iconfont icon-jiansvg"></i></span>
+                                        <span class="minusBtn" v-on:click='minusitem(item,"food")'><i class="iconfont icon-jian"></i></span>
                                         <span class="textNum">{{item.num}}</span>
-                                        <span class="addBtn rl" v-on:click='addnotfirstitem(item,"food")'><i class="iconfont icon-custom-add"></i></span>
+                                        <span class="addBtn rl" v-on:click='addnotfirstitem(item,"food")'><i class="iconfont icon-jia"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -49,9 +49,9 @@
                                 <div>
                                     <span>{{item.seller}}{{item.name}}</span>
                                     <div class="dash-num">
-                                        <span class="minusBtn" v-on:click='minusitem(item,"cart")'><i class="iconfont icon-jiansvg"></i></span>
+                                        <span class="minusBtn" v-on:click='minusitem(item,"cart")'><i class="iconfont icon-jian"></i></span>
                                         <span class="textNum">{{item.num}}</span>
-                                        <span class="addBtn rl" v-on:click='addnotfirstitem(item,"cart")'><i class="iconfont icon-custom-add"></i></span>
+                                        <span class="addBtn rl" v-on:click='addnotfirstitem(item,"cart")'><i class="iconfont icon-jia"></i></span>
                                     </div>
                                 </div>
                                 <div class="cart-note">
@@ -69,157 +69,157 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-        username:'',
-        usertype:false,
-        islasttime:false,
-        nocartnum:false,
-        lasttime:'18:30',
-        fooditems:[{
-            id:1,
-            isaddfirst:true,
-            imgurl:'/static/images/超意兴一.jpg',
-            seller:'超意兴',
-            name:'把子肉套餐一',
-            remark:'美味面条',
-            quantity:'0',
-            num:'1'
-        },{
-            id:2,
-            isaddfirst:true,
-            imgurl:'/static/images/超意兴二.jpg',
-            seller:'超意兴',
-            name:'把子肉套餐二',
-            remark:'高蛋白保证一天能量',
-            quantity:'2',
-            num:'2' 
-        },{
-            id:3,
-            isaddfirst:true,
-            imgurl:'/static/images/超意兴二.jpg',
-            seller:'超意兴',
-            name:'把子肉套餐三',
-            remark:'高蛋白保证一天能量',
-            quantity:'2',
-            num:'2' 
-        }],
-        cartitems:[]
+    name: 'myitems',
+    data () {
+        return {
+            username:'',
+            usertype:false,
+            islasttime:false,
+            nocartnum:false,
+            lasttime:'18:30',
+            fooditems:[{
+                id:1,
+                isaddfirst:true,
+                imgurl:'/static/images/超意兴一.jpg',
+                seller:'超意兴',
+                name:'把子肉套餐一',
+                remark:'美味面条',
+                quantity:'0',
+                num:'1'
+            },{
+                id:2,
+                isaddfirst:true,
+                imgurl:'/static/images/超意兴二.jpg',
+                seller:'超意兴',
+                name:'把子肉套餐二',
+                remark:'高蛋白保证一天能量',
+                quantity:'2',
+                num:'2' 
+            },{
+                id:3,
+                isaddfirst:true,
+                imgurl:'/static/images/超意兴二.jpg',
+                seller:'超意兴',
+                name:'把子肉套餐三',
+                remark:'高蛋白保证一天能量',
+                quantity:'2',
+                num:'2' 
+            }],
+            cartitems:[]
+        }
+    },
+    mounted() {
+        this.username = this.$route.query.name;
+    },
+    computed:{
+        intercept: function() {
+            return this.username.split('')[0];
+        }
+    },
+    methods: {
+        addfirstitem(item) {
+            if(this.islasttime == true) {
+                alert('订餐已结束');
+                return false;
+            }
+            item.isaddfirst = false;
+            item.num = 1;
+            var cartarry = {};
+            cartarry.id = item.id;
+            cartarry.seller = item.seller;
+            cartarry.name = item.name;
+            cartarry.num = item.num;
+            this.cartitems.push(cartarry);
+            this.nocartnum = false;
+        },
+        addnotfirstitem(item,identifier) {
+            if(this.islasttime == true) {
+                alert('订餐已结束');
+                return false;
+            }
+            item.num ++;
+            if(identifier == 'food') {
+                for(var i = 0;i<this.cartitems.length;i++) {
+                    if(this.cartitems[i].id == item.id) {
+                        this.cartitems[i].num ++;
+                    }
+                }
+            } else if(identifier == 'cart'){
+            for(var i = 0;i<this.fooditems.length;i++) {
+                    if(this.fooditems[i].id == item.id) {
+                        this.fooditems[i].num ++;
+                    }
+                } 
+            }
+        },
+        minusitem(item,identifier) {
+            if(this.islasttime == true) {
+                alert('订餐已结束');
+                return false;
+            }
+            var cartlen = this.cartitems.length;
+            var foodLen = this.fooditems.length;
+            if(item.num <= 1) {
+                if(identifier == 'food') {
+                    item.isaddfirst = true;
+                    for(var i = 0;i<cartlen;i++) {
+                        if(this.cartitems[i].id == item.id) {
+                            this.cartitems.splice(i,1);
+                            cartlen--;
+                            if(cartlen<1){
+                                this.nocartnum = true;
+                            }
+                        }
+                    }
+                } else if(identifier == 'cart') {
+                    for(var i = 0;i<cartlen;i++) {
+                        if(this.cartitems[i].id == item.id) {
+                            this.cartitems.splice(i,1);
+                            cartlen--;
+                            if(cartlen<1){
+                                this.nocartnum = true;
+                            }
+                        }
+                        
+                    }
+                    for(var i = 0;i<foodLen;i++) {
+                        if(this.fooditems[i].id == item.id) {
+                            this.fooditems[i].isaddfirst = true;
+                        }
+                    }
+                }
+            } else {
+                item.num --;
+                if(identifier == 'food') {
+                    for(var i = 0;i<cartlen;i++) {
+                        if(this.cartitems[i].id == item.id) {
+                            this.cartitems[i].num --;
+                        }
+                    }
+                } else if(identifier == 'cart') {
+                    for(var i = 0;i<foodLen;i++) {
+                        if(this.fooditems[i].id == item.id) {
+                            this.fooditems[i].num --;
+                        }
+                    }
+                }
+            }
+        },
+        sublist() {
+            if(this.islasttime == true) {
+                alert('订餐已结束');
+                return false;
+            }
+            if(this.nocartnum == true) {
+                alert("请选择套餐");
+                return false;
+            }
+            alert('订单提交成功！');
+            // this.$http.post('/cartitems',cartitems).then((response) => {
+            //     console.log(response);
+            // })
+        }
     }
-  },
- mounted() {
-    this.username = this.$route.query.name;
-  },
-  computed:{
-      intercept: function() {
-          return this.username.split('')[0];
-      }
-  },
-  methods: {
-      addfirstitem(item) {
-        if(this.islasttime == true) {
-            alert('订餐已结束');
-            return false;
-        }
-        item.isaddfirst = false;
-        item.num = 1;
-        var cartarry = {};
-        cartarry.id = item.id;
-        cartarry.seller = item.seller;
-        cartarry.name = item.name;
-        cartarry.num = item.num;
-        this.cartitems.push(cartarry);
-        this.nocartnum = false;
-      },
-      addnotfirstitem(item,identifier) {
-        if(this.islasttime == true) {
-            alert('订餐已结束');
-            return false;
-        }
-        item.num ++;
-        if(identifier == 'food') {
-            for(var i = 0;i<this.cartitems.length;i++) {
-                if(this.cartitems[i].id == item.id) {
-                    this.cartitems[i].num ++;
-                }
-            }
-        } else if(identifier == 'cart'){
-           for(var i = 0;i<this.fooditems.length;i++) {
-                if(this.fooditems[i].id == item.id) {
-                    this.fooditems[i].num ++;
-                }
-            } 
-        }
-      },
-      minusitem(item,identifier) {
-        if(this.islasttime == true) {
-            alert('订餐已结束');
-            return false;
-        }
-        var cartlen = this.cartitems.length;
-        var foodLen = this.fooditems.length;
-        if(item.num <= 1) {
-            if(identifier == 'food') {
-                item.isaddfirst = true;
-                for(var i = 0;i<cartlen;i++) {
-                    if(this.cartitems[i].id == item.id) {
-                        this.cartitems.splice(i,1);
-                        cartlen--;
-                        if(cartlen<1){
-                            this.nocartnum = true;
-                        }
-                    }
-                }
-            } else if(identifier == 'cart') {
-                for(var i = 0;i<cartlen;i++) {
-                    if(this.cartitems[i].id == item.id) {
-                        this.cartitems.splice(i,1);
-                        cartlen--;
-                        if(cartlen<1){
-                            this.nocartnum = true;
-                        }
-                    }
-                    
-                }
-                for(var i = 0;i<foodLen;i++) {
-                    if(this.fooditems[i].id == item.id) {
-                        this.fooditems[i].isaddfirst = true;
-                    }
-                }
-            }
-        } else {
-            item.num --;
-            if(identifier == 'food') {
-                for(var i = 0;i<cartlen;i++) {
-                    if(this.cartitems[i].id == item.id) {
-                        this.cartitems[i].num --;
-                    }
-                }
-            } else if(identifier == 'cart') {
-                for(var i = 0;i<foodLen;i++) {
-                    if(this.fooditems[i].id == item.id) {
-                        this.fooditems[i].num --;
-                    }
-                }
-            }
-        }
-      },
-      sublist() {
-        if(this.islasttime == true) {
-            alert('订餐已结束');
-            return false;
-        }
-        if(this.nocartnum == true) {
-            alert("请选择套餐");
-            return false;
-        }
-        alert('订单提交成功！');
-        // this.$http.post('/cartitems',cartitems).then((response) => {
-        //     console.log(response);
-        // })
-      }
-  }
 }
 </script>
 <style src='../assets/css/consumer.css'>

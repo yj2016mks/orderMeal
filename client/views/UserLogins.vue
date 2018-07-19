@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'login',
   data () {
     return {
       username: '',
@@ -51,7 +51,7 @@ export default {
         } else {
           this.errtip = response.data.msg;
           this.$router.push({
-            path:'/myitems/',
+            path:'/myitems',
             query:{
               name:this.username
             }
