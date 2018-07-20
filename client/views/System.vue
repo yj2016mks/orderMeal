@@ -16,7 +16,7 @@
                             <input type="text" id="searchStr" v-model='searchstr'/>
                             <em class="iconfont icon-search" v-on:click='getList(0)'></em>
                         </span>
-                        <span class="iconfont icon-jia"></span>
+                        <span class="iconfont icon-jia" v-on:click='userpop'></span>
                     </div>
                 </div>
                 <div>
@@ -35,7 +35,7 @@
                         <tbody>
                             <tr v-for='item in consumers' v-bind:key='item.id'>
                                 <td>
-                                    <span><em>{{item.intercept}}</em></span>
+                                    <span><em>{{item.name | intercept}}</em></span>
                                 </td>
                                 <td>{{item.name}}</td>
                                 <td>{{item.phone}}</td>
@@ -50,7 +50,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    <NewUser></NewUser>
                 </div>
             </div>
         </div>
@@ -90,6 +89,17 @@ export default {
                 this.isbarstretch = true;
                 this.isbarfewer = false;
             }
+        },
+        userpop() {
+            this.$layer.iframe({
+                content: {
+                    content : NewUser,
+                    parent: this,
+                    data:{'hid':false}
+                },
+                area : ['800px','480px'],
+                title : '添加用户'
+            })
         },
         getList(type) {
             if (0==type) {

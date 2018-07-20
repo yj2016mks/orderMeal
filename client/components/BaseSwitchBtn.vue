@@ -18,6 +18,7 @@ export default {
     methods: {
         switchBtn(event) {
             this.switchBtnOn = !this.switchBtnOn;
+            this.$emit('switchchange',this.switchBtnOn)
         }
     }
 }

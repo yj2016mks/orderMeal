@@ -4,14 +4,17 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import layer from 'vue-layer'
 
 
 import upperFirst from 'lodash/upperFirst'          
-import camelCase from 'lodash/camelCase' 
+import camelCase from 'lodash/camelCase'
 
 import './assets/css/default.css'
 import './assets/css/public.css'
 import './assets/iconfont/iconfont.css'
+
+Vue.prototype.$layer = layer(Vue);
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
@@ -44,6 +47,10 @@ requireComponent.keys().forEach(fileName => {
     // 否则回退到使用模块的根。
     componentConfig.default || componentConfig
   )
+})
+
+Vue.filter('intercept', function(value) {
+  return value.split('')[0];
 })
 
 /* eslint-disable no-new */

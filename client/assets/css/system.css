@@ -64,7 +64,6 @@
 
 /*弹框*/
 #addUseDiv{
-    display: none;
     padding: 0 22px;
 }
 #addUseDiv li{
@@ -98,7 +97,7 @@
 #addUseDiv>div button:first-child{
     margin-right: 10px;
 }
-#addUseDiv .spanStop,.spanStar{
+#addUseDiv .spanStop,#addUseDiv .spanStar{
     float: right;
     margin-top: 20px;
 }

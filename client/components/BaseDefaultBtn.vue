@@ -1,7 +1,7 @@
 <template>
     <div class="margt-max-l fr">
-        <button type="button" class="cancel-btn">取消</button>
-        <button type="button" class="confirm-btn">确定</button>
+        <button type="button" class="cancel-btn" v-on:click='btncancel'>取消</button>
+        <slot name='defaultbtn'></slot>
     </div>
 </template>
 
@@ -10,6 +10,11 @@ export default {
     data() {
         return {
             
+        }
+    },
+    methods: {
+        btncancel() {
+            layer.closeAll();
         }
     }
 }
