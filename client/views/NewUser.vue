@@ -9,7 +9,7 @@
                     <template slot='necessary'>*</template>
                     <template slot='labelname'>姓名</template>
                     <template slot='labelinput'>
-                        <input v-model='name' id = "name" name = "name" type="text" maxlength="30" placeholder="员工真实姓名"/>
+                        <input v-model.trim='name' v-on:keyup='syschronousval' id = "name" name = "name" type="text" maxlength="30" placeholder="员工真实姓名"/>
                     </template>
                 </BaseInputText>
             </li>
@@ -27,7 +27,7 @@
                     <template slot='necessary'>*</template>
                     <template slot='labelname'>账号/密码</template>
                     <template slot='labelinput'>
-                        <input v-model='userName' id = "userName" name = "userName" readonly="readonly" type="text" placeholder="账号初始密码相同" maxlength="30"/>
+                        <input v-model='account' id = "account" name = "account" readonly="readonly" type="text" placeholder="账号初始密码相同" maxlength="30"/>
                     </template>
                 </BaseInputText>
             </li>
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import Bus from '../router/bus.js'
+
 export default {
     name: 'userpop',
     data () {
@@ -67,6 +69,9 @@ export default {
         switchauthority(authority) {
             this.authority = authority;
         },
+        syschronousval() {
+            this.account = this.name;
+        },
         btnenter() {
             function nameSupport(name) {
                 var reg = /^[\u4e00-\u9fa5]+$/;
@@ -76,7 +81,6 @@ export default {
                 return false;
             }
             var name = this.name;
-            name = _.trim(name);console.log(name)
             if(name.length <=0) {
                 this.$layer.msg("请填写姓名");
                 return false;
@@ -96,21 +100,15 @@ export default {
                 authority: this.authority,
                 remark: this.remark,
             }
-            console.log(params)
-            // this.$http.post('/addnewuser',params).then((response)=>{
-            //     console.log(response)
-            // })
-            // $.ajax({
-            //     type: 'post',
-            //     dataType: "json",//预期服务器返回的数据类型
-            //     data: $('#dataform').serialize(),
-            //     url: ctx + '/user/create',
-            //     success: function (msg) {
-            //         this.$layer.closeAll();
-            //         this.$layer.msg("创建账号成功");
-            //         getList(0);
-            //     }
-            // });
+            this.$http.post('/system/addnewuser',params).then((response)=>{
+                if(response.data.status == '1') {
+                    this.$layer.closeAll();
+                    this.$layer.msg('添加成功');
+                    Bus.$emit('afreshgetList',0);
+                } else {
+                    this.$layer.msg('添加失败');
+                }
+            })
         }
     }
 }

@@ -1,63 +1,64 @@
 <template>
 <div class="body-wrap">
-        <div class="header-wrap">
-            <BaseNavHeader>
-                <template slot='navbtn'>
-                    <span><router-link to='/'><i class="iconfont icon-yonghutouxiang"></i></router-link></span>
-                </template>
-            </BaseNavHeader>
-        </div>
-        <div class="main-wrap">
-            <div id="main">
-                <div class="opera-wrap clear-float">
-                    <span class="hello-font">你好，{{accountname}}</span>
-                    <div class="opera-btn">
-                        <span class="searchBtn rltv" v-bind:class='{barstretch:isbarstretch,barfewer:isbarfewer}' v-on:mouseenter='searchbarstretch' v-on:mouseleave='searchbarfewer'>
-                            <input type="text" id="searchStr" v-model='searchstr'/>
-                            <em class="iconfont icon-search" v-on:click='getList(0)'></em>
-                        </span>
-                        <span class="iconfont icon-jia" v-on:click='userpop'></span>
-                    </div>
+    <div class="header-wrap">
+        <BaseNavHeader>
+            <template slot='navbtn'>
+                <span><router-link to='/'><i class="iconfont icon-yonghutouxiang"></i></router-link></span>
+            </template>
+        </BaseNavHeader>
+    </div>
+    <div class="main-wrap">
+        <div id="main">
+            <div class="opera-wrap clear-float">
+                <span class="hello-font">你好，{{accountname}}</span>
+                <div class="opera-btn">
+                    <span class="searchBtn rltv" v-bind:class='{barstretch:isbarstretch,barfewer:isbarfewer}' v-on:mouseenter='searchbarstretch' v-on:mouseleave='searchbarfewer'>
+                        <input type="text" id="searchStr" v-model='searchstr'/>
+                        <em class="iconfont icon-search" v-on:click='getList(0)' ></em>
+                    </span>
+                    <span class="iconfont icon-jia" v-on:click='userpop'></span>
                 </div>
-                <div>
-                    <table id="nameData">
-                        <thead>
-                            <tr>
-                                <th width="80px"></th>
-                                <th>姓名</th>
-                                <th>手机号</th>
-                                <th>平台账号</th>
-                                <th>权限</th>
-                                <th>备注</th>
-                                <th width="80px">操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for='item in consumers' v-bind:key='item.id'>
-                                <td>
-                                    <span><em>{{item.name | intercept}}</em></span>
-                                </td>
-                                <td>{{item.name}}</td>
-                                <td>{{item.phone}}</td>
-                                <td>{{item.account}}</td>
-                                <td>{{item.authority}}</td>
-                                <td>{{item.remark}}</td>
-                                <td>
-                                    <div>
-                                        <span title='删除'><i class='iconfont icon-delete'></i></span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            </div>
+            <div>
+                <table id="nameData">
+                    <thead>
+                        <tr>
+                            <th width="80px"></th>
+                            <th>姓名</th>
+                            <th>手机号</th>
+                            <th>平台账号</th>
+                            <th>权限</th>
+                            <th>备注</th>
+                            <th width="80px">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for='item in consumers' v-bind:key='item.id'>
+                            <td>
+                                <span><em>{{item.name | intercept}}</em></span>
+                            </td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.phone}}</td>
+                            <td>{{item.account}}</td>
+                            <td>{{item.authority}}</td>
+                            <td>{{item.remark}}</td>
+                            <td>
+                                <div>
+                                    <span v-on:click='deletuser(item._id)' title='删除'><i class='iconfont icon-delete'></i></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
 import NewUser from './NewUser'
+import Bus from '../router/bus.js'
 
 export default {
     name: 'system',
@@ -70,6 +71,11 @@ export default {
             start:0,
             consumers:[]
         }
+    },
+    created() {
+        Bus.$on('afreshgetList',(item)=>{
+            this.getList(item)
+        })
     },
     components:{
         NewUser
@@ -101,6 +107,22 @@ export default {
                 title : '添加用户'
             })
         },
+        deletuser(id) {
+            var params={'_id':id};
+            this.$layer.confirm('确认要删除吗？', {
+                btn : [ '确定', '取消' ]//按钮
+            }, ((index) => {
+                this.$http.post('/system/deletuser',params).then((response)=>{
+                    if(response.data.status == '1') {
+                        this.$layer.closeAll();
+                        this.$layer.msg('删除成功');
+                        this.getList(0);
+                    } else {
+                        this.$layer.msg('删除失败');
+                    }
+                })
+            })); 
+        },
         getList(type) {
             if (0==type) {
                 this.start = 0;
@@ -110,7 +132,7 @@ export default {
             var params = {start:start,length:10,searchStr:searchstr}
             this.$http.get('/system',{params}).then((response)=>{
                 if(response.data.status == 1) {
-                    var searchresult = response.data.result;console.log(searchresult);
+                    var searchresult = response.data.result;
                     this.consumers = searchresult;
                 }
             })

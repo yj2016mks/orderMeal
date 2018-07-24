@@ -14,7 +14,7 @@ export default {
     },
     methods: {
         btncancel() {
-            layer.closeAll();
+            this.$layer.closeAll();
         }
     }
 }
