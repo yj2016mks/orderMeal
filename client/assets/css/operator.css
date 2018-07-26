@@ -1,0 +1,316 @@
+@import url("default.css");
+@import url("public.css");
+.tab-switch{
+    border-bottom: 1px solid #eee;
+}
+.tab-switch li{
+    float: left;
+    line-height: 40px;
+    padding: 0 20px;
+    margin-right: 20px;
+}
+.tab-switch li:hover{
+    cursor: pointer;
+}
+.tab-switch li.active{
+    border-bottom: 3px solid #4696E7;
+}
+#order-list li{
+    float: left;
+    margin-right: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);
+    border: 2px solid transparent;
+}
+#order-list .active{
+    border: 2px solid #4696E7;
+}
+#order-list li .dash-title{
+    position: absolute;
+    z-index: 2;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}
+#order-list li .dash-title span{
+    display: block;
+}
+#order-list li .dash-title span:first-child{
+    font-size: 36px;
+    font-weight: 900;
+}
+#order-list li .dash-img{
+    position: relative;
+    width: 276px;
+    height: 160px;
+    overflow: hidden;
+}
+#order-list li .dash-img:hover{
+    cursor: pointer;
+}
+#order-list li .dash-img:after{
+    width: 100%;
+    height: 160px;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+#order-list li .dash-img img{
+    width: 100%;
+}
+#order-list li .notice-div{
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+}
+#order-list li .notice-before:hover{
+    cursor: pointer;
+}
+#order-list li .notice-div .notice-before{
+    color: #4696E7;
+}
+#order-list li .notice-div .notice-before i{
+    font-size: 20px;
+}
+#order-list li .notice-div .notice-after{
+    color: #999;
+}
+.icon-icon--{
+    color: #4696E7;
+    font-size: 20px;
+}
+.icon-icon-bin{
+    color: #b5d5f5 !important;
+}
+.orderlist-title{
+    margin-top: 30px;
+}
+.orderlist-title h6{
+    display: inline-block;
+    font-size: 16px;
+    line-height: 36px;
+    color:#68b9f9 !important;
+}
+.orderlist-title h6:hover{
+    cursor: pointer;
+}
+#orderList{
+    width: 100%;
+    padding-bottom: 20px;
+}
+#orderList tbody tr td:first-child span {
+    display: block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #4696E7;
+    border-radius: 25px;
+}
+#orderList tbody tr td:first-child span em {
+    width: 25px;
+    display: block;
+    margin: 0 auto;
+    color: #fff;
+    font-style: normal;
+    text-align: center;
+}
+#orderList tbody tr td.table-opeta button{
+    width: 90px;
+    height: 34px;
+    border: 1px solid #4696E7;
+    border-radius: 3px;
+    color: #4696E7;
+    background-color: #f5f5f5;
+}
+
+.syst-set li{
+    float: left;
+    width: 100px;
+}
+.syst-set>div>span{
+    float: left;
+    width: 250px;
+}
+.line-height{
+    line-height: 60px;
+}
+.line-height:first-child{
+    margin-top: 20px;
+}
+.line-height input[type=radio]{
+    margin-right: 5px;
+}
+.switchBtn{
+    display: inline-block;
+}
+.spanStar,.spanStop{
+    margin-top: 22px;
+}
+.dishes-content{
+    width: 100%;
+}
+.cart-content{
+    background: #3D5B94;
+}
+.dishes-content li:not(:first-child){
+    width: 280px;
+    float: left;
+    margin-right: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);
+}
+.dishes-content .dash-img{
+    width: 280px;
+    height: 160px;
+    overflow: hidden;
+    /*background-image:url(../images/cai1.png);
+    background-position: center;
+    background-size: cover;*/
+}
+.dishes-content .dash-img img{
+    width: 100%;
+}
+.dishes-content .dash-con{
+    padding: 10px 20px 15px 20px;
+}
+.dishes-content .dash-con h5{
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: 400;
+}
+.dishes-content .dash-con label{
+    color: #999;
+    font-size: 12px;
+}
+.dishes-content .dash-con>div{
+    margin-top: 10px;
+}
+.dishes-content .dash-con>div>span {
+    color: #4696E7;
+    font-size: 12px;
+}
+#dash-list li{
+    position: relative;
+}
+#dash-list .mask-shadow:after,.bin-shaow:after{
+    width: 100%;
+    height: 100%;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+}
+#dash-list .mask-shadow:after{
+    background-color: rgba(22,26,49,0.5);
+}
+#dash-list .bin-shaow:after{
+    background-color: rgba(255,255,255,0.7);
+}
+#dash-list .operaWrap{
+    position: absolute;
+    z-index: 2;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}
+#dash-list .operaWrap span{
+    float: left;
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    margin-right: 20px;
+    background-color: #4696E7;
+    border-radius: 3px;
+    display: none;
+}
+#dash-list .operaWrap span:last-child{
+    margin-right: 0;
+}
+#dash-list .operaWrap i{
+    font-size: 20px;
+}
+#addDash{
+    float: left;
+    width: 280px;
+    height: 257px;
+    border: 2px dashed #ccc;
+    margin-top: 16px;
+    margin-right: 20px;
+    box-sizing: border-box;
+    color: #ccc;
+}
+#addDash:hover{
+    cursor: pointer;
+}
+#addDash i{
+    font-size: 50px;
+    display: block;
+}
+#addDash span{
+    font-size: 16px;
+    display: block;
+    margin-top: 10px;
+}
+#addDashDiv{
+    padding: 0 22px;
+}
+#addDashDiv li{
+    border-bottom: 1px solid #E5E5E5;
+}
+#addDashDiv label {
+    width: 100%;
+    height: 59px;
+    line-height: 59px;
+    display: inline-block;
+}
+#addDashDiv .must-tip {
+    color: red;
+    width: 10px;
+    display: inline-block;
+}
+#addDashDiv ul input {
+    float: right;
+    width: calc(100% - 90px);
+    height: 57px;
+    line-height: 57px;
+    text-align: right;
+    border: none;
+    font-size: 16px;
+}
+#addDashDiv .imgWrap{
+    width: 420px;
+    height: 240px;
+    border: 1px dashed #ccc;
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+}
+#addDashDiv .imgWrap:hover{
+    cursor: pointer;
+}
+#addDashDiv .imgWrap .imgUp{
+    width: 100%;
+}
+#addDashDiv .imgWrap .imgUp span{
+    color: #999;
+}
+#addDashDiv .imgWrap .imgUp img{
+    max-width: 420px;
+}
+.file-div{
+    display: none;
+}
+.margt-max{
+    margin-left: 250px;
+}

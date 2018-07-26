@@ -30,9 +30,9 @@ router.get('/',function(req,res,next) {
 })
 router.post('/addnewuser',function(req,res,next) {
     if(req.body) {
-        var params = req.body;console.log(params)
+        var params = req.body;
         var newuserparam = new System(params);
-        newuserparam.save(function(err,doc) {console.log(doc)
+        newuserparam.save(function(err,doc) {
             if(err) {
                 res.json({
                     status:'0',

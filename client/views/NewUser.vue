@@ -32,7 +32,7 @@
                 </BaseInputText>
             </li>
             <li>
-                <BaseSwitchBtn v-on:switchchange='switchauthority(authority)'>操作员权限</BaseSwitchBtn>
+                <BaseSwitchBtn v-on:switchchange='switchauthority'>操作员权限</BaseSwitchBtn>
             </li>
             <li>
                 <BaseInputText>
@@ -67,7 +67,7 @@ export default {
     },
     methods: {
         switchauthority(authority) {
-            this.authority = authority;
+            this.authority = Number(authority);
         },
         syschronousval() {
             this.account = this.name;
@@ -100,7 +100,7 @@ export default {
                 authority: this.authority,
                 remark: this.remark,
             }
-            this.$http.post('/system/addnewuser',params).then((response)=>{
+            this.$http.post('/system/addnewuser',params).then((response) => {
                 if(response.data.status == '1') {
                     this.$layer.closeAll();
                     this.$layer.msg('添加成功');
