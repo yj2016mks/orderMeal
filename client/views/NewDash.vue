@@ -61,7 +61,7 @@ export default {
             imgurl: '',
             name: '',
             seller: '',
-            authority: 0,
+            authority: 1,
             remark: ''
         }
     },

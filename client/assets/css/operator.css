@@ -188,7 +188,8 @@
 .dishes-content .dash-con label{
     color: #999;
     font-size: 12px;
-    height: 24px;
+    height: 18px;
+    display: block;
 }
 .dishes-content .dash-con>div{
     margin-top: 10px;
@@ -212,7 +213,10 @@
     background-color: rgba(22,26,49,0.5);
 }
 #dash-list .bin-shaow:after{
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(255,255,255,0.3);
+}
+#dash-list .bin-shaow img{
+    filter: blur(3px);
 }
 #dash-list .operaWrap{
     position: absolute;

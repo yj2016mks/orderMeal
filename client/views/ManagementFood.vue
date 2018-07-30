@@ -9,7 +9,7 @@
                     </div>
                 </div>
             </li>
-            <li v-for='item in orderitems' v-bind:key='item.id' v-bind:class='{"mask-shadow":item.showshadow}' v-on:mouseenter='operatfood(item)' v-on:mouseleave='operatfoodleave(item)'>
+            <li v-for='item in orderitems' v-bind:key='item.id' v-bind:class='{"mask-shadow":item.showshadow,"bin-shaow":item.showbinshaow}' v-on:mouseenter='operatfood(item)' v-on:mouseleave='operatfoodleave(item)'>
                 <div>
                     <div class="dash-img">
                         <img v-bind:src="item.imgurl">
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="operaWrap" v-bind:class='{hid:item.ishid}'>
+                <div class="operaWrap" v-bind:class='{"hid":item.ishid}'>
                     <span v-if='item.authority' v-on:click='openfood(item)' class="openBtn" title="上架"><i class="iconfont icon-dui"></i></span>
                     <span v-else v-on:click='binfood(item)' class="binBtn"><i class="iconfont icon-jinzhi" title="下架"></i></span>
                     <span v-on:click='delfood(item)' class="delBtn" title="删除"><i class="iconfont icon-delete"></i></span>
@@ -45,7 +45,17 @@ export default {
     },
     created() {
         Bus.$on('afreshdashList',(item) => {    //添加菜品
-            this.orderitems.push(item);
+            var orderarry = {};
+            orderarry.imgurl = item.imgurl;
+            orderarry.name = item.name;
+            orderarry.seller = item.seller;
+            orderarry.remark = item.remark;
+            orderarry.num = item.num;
+            orderarry.authority = !item.authority;
+            orderarry.showbinshaow = !item.authority;
+            orderarry.showshadow = false;
+            orderarry.ishid = true;
+            this.orderitems.push(orderarry);
         })
     },
     comments: {
@@ -78,7 +88,8 @@ export default {
                         orderarry.seller = val.seller;
                         orderarry.remark = val.remark;
                         orderarry.num = val.num;
-                        orderarry.authority = val.authority;
+                        orderarry.authority = !val.authority;
+                        orderarry.showbinshaow = !val.authority;
                         orderarry.showshadow = false;
                         orderarry.ishid = true;
                         this.orderitems.push(orderarry);
@@ -112,6 +123,7 @@ export default {
                         this.$layer.closeAll();
                         this.$layer.msg("已上架该菜品");
                         item.authority = false;
+                        item.showbinshaow = false;
                     }
                 })
             });
@@ -129,6 +141,7 @@ export default {
                         this.$layer.closeAll();
                         this.$layer.msg("已下架该菜品");
                         item.authority = true;
+                        item.showbinshaow = true;
                     }
                 })
             });
@@ -151,7 +164,6 @@ export default {
                                 return false;
                             }
                         })
-                        console.log(this.orderitems)
                     }
                 })
             });
