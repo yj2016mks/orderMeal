@@ -4,7 +4,8 @@ var dashfoodSchema = new mongoose.Schema({
   "imgurl":String,
   "name":String,
   "seller":String,
-  "authority":Number,
-  "remark":String
+  "remark":String,
+  "authority":Boolean,
+  "num":Number
 });
 module.exports = mongoose.model("DashFood",dashfoodSchema);

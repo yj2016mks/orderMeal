@@ -2,8 +2,8 @@
     <label class="switchBtn">
         <slot></slot>
         <div v-on:click='switchBtn'>
-            <span v-if='switchBtnOn' class="spanStop"><em class="emStop"></em></span>
-            <span v-else class="spanStar"><em class="emStar"></em></span>
+            <span v-if='switchBtnOn' class="spanStar"><em class="emStar"></em></span>
+            <span v-else class="spanStop"><em class="emStop"></em></span>
         </div>
     </label>
 </template>

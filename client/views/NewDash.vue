@@ -79,7 +79,7 @@ export default {
             }
         },
         switchauthority(authority) {
-            this.authority = Number(authority);
+            this.authority = authority;
         },
         btnenter() {
             function nameSupport(name)
@@ -92,28 +92,28 @@ export default {
             }
             var name = this.name;
             if(name.length <= 0) {
-                layer.msg('请填写菜品名称',{icon:7});
+                this.$layer.msg('请填写菜品名称',{icon:7});
                 return false;
             }
             if(!nameSupport(name)) {
-                layer.msg("菜品名称必须为汉字",{icon:7});
+                this.$layer.msg("菜品名称必须为汉字",{icon:7});
                 return false;
             }
             if(!(name.length>=2 && name.length<=10)) {
-                layer.msg("菜品名称长度为2-10",{icon:7});
+                this.$layer.msg("菜品名称长度为2-10",{icon:7});
                 return false;
             }
                 var seller = this.seller;
                 if(seller.length <= 0) {
-                    layer.msg('请填写所属饭店',{icon:7});
+                    this.$layer.msg('请填写所属饭店',{icon:7});
                     return false;
                 }
                 if(!nameSupport(seller)) {
-                layer.msg("所属饭店必须为汉字",{icon:7});
+                this.$layer.msg("所属饭店必须为汉字",{icon:7});
                 return false;
             }
             if(!( seller.length<=10)) {
-                layer.msg("所属饭店长度不超过10",{icon:7});
+                this.$layer.msg("所属饭店长度不超过10",{icon:7});
                 return false;
             }
             var params = {
@@ -121,13 +121,14 @@ export default {
                 name: this.name,
                 seller: this.seller,
                 authority: this.authority,
-                remark: this.remark
+                remark: this.remark,
+                num: 0
             }
             this.$http.post('/operator/addnewdash',params).then((response) => {
                 if(response.data.status == '1') {
                     this.$layer.closeAll();
                     this.$layer.msg('添加成功');
-                    // Bus.$emit('afreshgetList',0);
+                    Bus.$emit('afreshdashList',params);
                 } else {
                     this.$layer.msg('添加失败');
                 }

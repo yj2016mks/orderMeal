@@ -188,6 +188,7 @@
 .dishes-content .dash-con label{
     color: #999;
     font-size: 12px;
+    height: 24px;
 }
 .dishes-content .dash-con>div{
     margin-top: 10px;
@@ -232,7 +233,7 @@
     margin-right: 20px;
     background-color: #4696E7;
     border-radius: 3px;
-    display: none;
+    cursor: pointer;
 }
 #dash-list .operaWrap span:last-child{
     margin-right: 0;
@@ -243,9 +244,8 @@
 #addDash{
     float: left;
     width: 280px;
-    height: 257px;
+    height: 261px;
     border: 2px dashed #ccc;
-    margin-top: 16px;
     margin-right: 20px;
     box-sizing: border-box;
     color: #ccc;
