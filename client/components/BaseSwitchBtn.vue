@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import Bus from '../router/bus.js'
+
 export default {
     data() {
         return {
@@ -18,7 +20,7 @@ export default {
     methods: {
         switchBtn(event) {
             this.switchBtnOn = !this.switchBtnOn;
-            this.$emit('switchchange',this.switchBtnOn)
+            Bus.$emit('switchchange',this.switchBtnOn)
         }
     }
 }

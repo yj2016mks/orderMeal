@@ -15,7 +15,7 @@
                         <span class="hello-font">你好，{{accountname}}</span>
                     </div>
                     <div v-if='islasttime' class="fr dash-time"><span>订餐已结束</span></div>
-                    <div v-else class="fr dash-time"><span>订餐将于<em>{{lasttime}}</em>结束</span></div>
+                    <div v-else class="fr dash-time"><span>订餐将于<em>{{deadlines}}</em>结束</span></div>
                 </div>
                 <div class="tabswitch-wrap">
                     <ul class='tab-switch clear-float'>
@@ -42,17 +42,18 @@
         name:'newdash',
         data() {
             return {
-               accountname: 'operator' ,
-               currentTab: 'ManagementOrder',
-               tabs: [{
-                        name: 'ManagementOrder',
-                        value: '订单管理'
-                   },{
-                        name: 'ManagementFood',
-                        value: '菜品管理'
+                deadlines:'',
+                accountname: 'operator' ,
+                currentTab: 'ManagementOrder',
+                tabs: [{
+                            name: 'ManagementOrder',
+                            value: '订单管理'
                     },{
-                        name: 'ManagementSystem',
-                        value: '系统设置'
+                            name: 'ManagementFood',
+                            value: '菜品管理'
+                    },{
+                            name: 'ManagementSystem',
+                            value: '系统设置'
                     }]
             }
         },
@@ -66,8 +67,18 @@
                 return this.currentTab;
             }
         },
+        mounted() {
+            this.gettime();
+        },
         methods: {
-
+            gettime() {
+                this.$http.get('/operator/getsystem').then((response) => {console.log(response)
+                if(response.data.status == 1) {
+                    var result = response.data.result[0]
+                    this.deadlines = result.deadlines[result.deadchecked].name;
+                }
+            })
+            }
         }
     }
 </script>

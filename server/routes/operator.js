@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var DashFood = require('../models/dashfood');
-
+var OperatorSystem = require('../models/operatorsystem');
+//菜品管理
 router.post('/addnewdash',function(req,res,next) {
     if(req.body) {
         var params = req.body;
@@ -81,5 +82,53 @@ router.post('/food/deldash',function(req,res,next) {
             }
         })
     }
+})
+//系统设置
+router.post('/setsystem',function(req,res,next) {
+    if(req.body) {
+        var params = {
+            deadchecked:req.body.deadchecked,
+            remindchecked:req.body.remindchecked,
+            authority:req.body.authority,
+            deadlines:req.body.deadlines,
+            reminds:req.body.reminds
+        }
+        OperatorSystem.remove({},function(err,doc) {
+            var operatorsystem = new OperatorSystem(params);
+            operatorsystem.save(function(err,doc) {
+                if(err) {
+                    res.json({
+                        status:'0',
+                        msg:err
+                    })
+                } else {
+                    if(doc) {
+                        res.json({
+                            status:'1',
+                            result:'修改成功'
+                        })
+                    }
+                }
+            })
+            
+        })
+    }
+})
+router.get('/getsystem',function(req,res,next) {
+    OperatorSystem.find({},function(err,doc) {
+        if(err) {
+            res.json({
+                status:'0',
+                msg:err
+            })
+        } else {
+            if(doc) {
+                res.json({
+                    status:'1',
+                    result:doc
+                })
+            }
+        }
+    })
 })
 module.exports = router;
