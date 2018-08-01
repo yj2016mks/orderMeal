@@ -17,7 +17,7 @@ router.post('/addnewdash',function(req,res,next) {
                 if(doc) {
                     res.json({
                         status:'1',
-                        result:'添加成功'
+                        result:doc
                     })
                 }
             }

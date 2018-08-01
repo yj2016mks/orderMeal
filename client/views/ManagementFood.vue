@@ -15,7 +15,7 @@
                         <img v-bind:src="item.imgurl">
                     </div>
                     <div class="dash-con">
-                        <h5>{{item.name}}{{item.seller}}</h5>
+                        <h5>{{item.seller}}{{item.name}}</h5>
                         <label>{{item.remark}}</label>
                         <div>
                             <span>已售：{{item.num}}</span>
@@ -46,6 +46,7 @@ export default {
     created() {
         Bus.$on('afreshdashList',(item) => {    //添加菜品
             var orderarry = {};
+            orderarry.id = item._id;
             orderarry.imgurl = item.imgurl;
             orderarry.name = item.name;
             orderarry.seller = item.seller;

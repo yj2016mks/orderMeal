@@ -32,7 +32,7 @@
                 </BaseInputText>
             </li>
             <li>
-                <BaseSwitchBtn v-on:switchchange='switchauthority'>上架</BaseSwitchBtn>
+                <BaseSwitchBtn>上架</BaseSwitchBtn>
             </li>
             <li>
                 <BaseInputText>
@@ -65,6 +65,11 @@ export default {
             remark: ''
         }
     },
+    created() {
+        Bus.$on('switchchange',(authority) => {
+            this.authority = authority;
+        })
+    },
     methods: {
         showPreview() {
             var source = document.getElementById('foodimage');
@@ -77,9 +82,6 @@ export default {
                 };
                 fr.readAsDataURL(file);
             }
-        },
-        switchauthority(authority) {
-            this.authority = authority;
         },
         btnenter() {
             function nameSupport(name)
@@ -128,7 +130,7 @@ export default {
                 if(response.data.status == '1') {
                     this.$layer.closeAll();
                     this.$layer.msg('添加成功');
-                    Bus.$emit('afreshdashList',params);
+                    Bus.$emit('afreshdashList',response.data.result);
                 } else {
                     this.$layer.msg('添加失败');
                 }
