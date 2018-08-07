@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var login = require('./routes/login');
 var system = require('./routes/system');
 var operator = require('./routes/operator');
+var consumer = require('./routes/consumer');
 
 var app = express();
 
@@ -16,6 +17,7 @@ app.use(express.static(path.resolve(__dirname, '../dist')));
 app.use('/login', login);
 app.use('/system', system);
 app.use('/operator', operator);
+app.use('/consumer', consumer);
 
 // 监听
 app.listen(3030, function () {

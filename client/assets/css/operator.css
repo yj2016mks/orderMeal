@@ -152,7 +152,7 @@
 .spanStar,.spanStop{
     margin-top: 22px;
 }
-.dishes-content{
+.tabswitch-wrap,.food-mange,.dishes-content{
     width: 100%;
 }
 .cart-content{
@@ -250,6 +250,7 @@
     width: 280px;
     height: 261px;
     border: 2px dashed #ccc;
+    margin-top: 20px;
     margin-right: 20px;
     box-sizing: border-box;
     color: #ccc;

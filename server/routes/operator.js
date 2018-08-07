@@ -25,7 +25,12 @@ router.post('/addnewdash',function(req,res,next) {
     }
 })
 router.get('/getdashlish',function(req,res,next) {
-    DashFood.find(function(err,doc) {
+    if(req.query) {
+        var params = req.query
+    } else {
+        var params = {}
+    }
+    DashFood.find(params,function(err,doc) {
         if(err) {
             res.json({
                 status:'0',

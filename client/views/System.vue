@@ -190,5 +190,5 @@ export default {
     }
 }
 </script>
-<style src='../assets/css/system.css'>
+<style scoped src='../assets/css/system.css'>
 </style>

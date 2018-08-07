@@ -29,13 +29,13 @@
                                 <h5>{{item.seller}}{{item.name}}</h5>
                                 <label>{{item.remark}}</label>
                                 <div>
-                                    <span>已售：{{item.quantity}}</span>
+                                    <span>已售：{{item.salenum}}</span>
                                     <div class="addFirst" v-show='item.isaddfirst' v-on:click='addfirstitem(item)'>
                                         <span><i class="iconfont icon-jia"></i></span>
                                     </div>
                                     <div class="dash-num" v-show='!item.isaddfirst'>
                                         <span class="minusBtn" v-on:click='minusitem(item,"food")'><i class="iconfont icon-jian"></i></span>
-                                        <span class="textNum">{{item.num}}</span>
+                                        <span class="textNum">{{item.cartnum}}</span>
                                         <span class="addBtn rl" v-on:click='addnotfirstitem(item,"food")'><i class="iconfont icon-jia"></i></span>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
                                     <span>{{item.seller}}{{item.name}}</span>
                                     <div class="dash-num">
                                         <span class="minusBtn" v-on:click='minusitem(item,"cart")'><i class="iconfont icon-jian"></i></span>
-                                        <span class="textNum">{{item.num}}</span>
+                                        <span class="textNum">{{item.cartnum}}</span>
                                         <span class="addBtn rl" v-on:click='addnotfirstitem(item,"cart")'><i class="iconfont icon-jia"></i></span>
                                     </div>
                                 </div>
@@ -72,44 +72,19 @@ export default {
     name: 'myitems',
     data () {
         return {
-            username:'',
-            usertype:false,
-            islasttime:false,
-            nocartnum:false,
-            lasttime:'18:30',
-            fooditems:[{
-                id:1,
-                isaddfirst:true,
-                imgurl:'/static/images/超意兴一.jpg',
-                seller:'超意兴',
-                name:'把子肉套餐一',
-                remark:'美味面条',
-                quantity:'0',
-                num:'1'
-            },{
-                id:2,
-                isaddfirst:true,
-                imgurl:'/static/images/超意兴二.jpg',
-                seller:'超意兴',
-                name:'把子肉套餐二',
-                remark:'高蛋白保证一天能量',
-                quantity:'2',
-                num:'2' 
-            },{
-                id:3,
-                isaddfirst:true,
-                imgurl:'/static/images/超意兴二.jpg',
-                seller:'超意兴',
-                name:'把子肉套餐三',
-                remark:'高蛋白保证一天能量',
-                quantity:'2',
-                num:'2' 
-            }],
-            cartitems:[]
+            username: '',
+            usertype: false,
+            islasttime: false,
+            nocartnum: false,
+            lasttime: '18:30',
+            fooditems: [],       //菜品数据
+            cartitems: [],       //要提交的订单数据
+            diffvalue: []        //记录订单原始数据和要提交的数量的差别
         }
     },
-    mounted() {
+    created() {
         this.username = this.$route.query.name;
+        this.getlist();      //加载已有菜品
     },
     computed:{
         intercept: function() {
@@ -117,41 +92,113 @@ export default {
         }
     },
     methods: {
+        //菜品列表 
+        getdashlish() {
+            return new Promise((resolve, reject) => {
+                var params = {
+                    authority:true
+                }
+                this.$http.get('/operator/getdashlish',{params}).then((response) => {
+                    if(response.data.status == 1) {
+                        var result = response.data.result;
+                        result.forEach(function(val,index) {
+                            var orderarry = {};
+                            orderarry.id = val._id;
+                            orderarry.imgurl = val.imgurl;
+                            orderarry.name = val.name;
+                            orderarry.seller = val.seller;
+                            orderarry.remark = val.remark;
+                            orderarry.salenum = val.num;
+                            orderarry.cartnum = 1;
+                            orderarry.isaddfirst = true;
+                            this.fooditems.push(orderarry);
+                            var diffarry = {};
+                            diffarry.id = val._id;
+                            diffarry.value = 0;
+                            this.diffvalue.push(diffarry);  //获取记录订单原始数据和要提交的数量的差别
+                        },this)
+                        resolve();
+                    }
+                })
+            })
+        },
+        //订餐列表
+        getcartlish() {
+            var that = this;
+            return new Promise((resolve, reject) => {
+                var params = {
+                    account:this.username
+                }
+                this.$http.get('/consumer/getcartlish',{params}).then((response) => {
+                    if(response.data.status == 1) {
+                        if(response.data.result.length != 0) {
+                            var result = response.data.result[0];
+                            this.cartitems = result.cartlist;
+                            resolve();
+                        }
+                    }
+                })
+            })
+        },
+        getlist() {
+            Promise.all([this.getdashlish(),this.getcartlish()])
+                    .then((resolve) => {
+                        this.fooditems.forEach((val,index) => {
+                            this.cartitems.forEach(function(cartval,cartindex) {
+                                if(cartval.id == val.id) {
+                                    val.isaddfirst = false;
+                                    val.cartnum = cartval.cartnum;
+                                }
+                            })
+                        })
+                        this.diffvalue.forEach((val,index) => {
+                            this.cartitems.forEach((cartval,cartindex) => {
+                                if(val.id == cartval.id) {
+                                    val.value = cartval.cartnum;   //获取记录订单原始数据和要提交的数量的差别
+                                }
+                            })
+                        })
+                    })
+        },
+        // 添加第一个菜品
         addfirstitem(item) {
             if(this.islasttime == true) {
                 alert('订餐已结束');
                 return false;
             }
             item.isaddfirst = false;
-            item.num = 1;
+            item.cartnum = 1;
             var cartarry = {};
             cartarry.id = item.id;
             cartarry.seller = item.seller;
             cartarry.name = item.name;
-            cartarry.num = item.num;
+            cartarry.cartnum = item.cartnum;
+            cartarry.remark = '';
             this.cartitems.push(cartarry);
             this.nocartnum = false;
         },
+        // 添加非第一个菜品
         addnotfirstitem(item,identifier) {
             if(this.islasttime == true) {
                 alert('订餐已结束');
                 return false;
             }
-            item.num ++;
+            item.cartnum ++;
             if(identifier == 'food') {
                 for(var i = 0;i<this.cartitems.length;i++) {
                     if(this.cartitems[i].id == item.id) {
-                        this.cartitems[i].num ++;
+                        this.cartitems[i].cartnum ++;
                     }
                 }
             } else if(identifier == 'cart'){
             for(var i = 0;i<this.fooditems.length;i++) {
                     if(this.fooditems[i].id == item.id) {
-                        this.fooditems[i].num ++;
+                        this.fooditems[i].cartnum ++;
                     }
                 } 
             }
         },
+        // 减去菜品
         minusitem(item,identifier) {
             if(this.islasttime == true) {
                 alert('订餐已结束');
@@ -159,7 +206,7 @@ export default {
             }
             var cartlen = this.cartitems.length;
             var foodLen = this.fooditems.length;
-            if(item.num <= 1) {
+            if(item.cartnum <= 1) {
                 if(identifier == 'food') {
                     item.isaddfirst = true;
                     for(var i = 0;i<cartlen;i++) {
@@ -180,7 +227,6 @@ export default {
                                 this.nocartnum = true;
                             }
                         }
-                        
                     }
                     for(var i = 0;i<foodLen;i++) {
                         if(this.fooditems[i].id == item.id) {
@@ -189,38 +235,65 @@ export default {
                     }
                 }
             } else {
-                item.num --;
+                item.cartnum --;
                 if(identifier == 'food') {
                     for(var i = 0;i<cartlen;i++) {
                         if(this.cartitems[i].id == item.id) {
-                            this.cartitems[i].num --;
+                            this.cartitems[i].cartnum --;
                         }
                     }
                 } else if(identifier == 'cart') {
                     for(var i = 0;i<foodLen;i++) {
                         if(this.fooditems[i].id == item.id) {
-                            this.fooditems[i].num --;
+                            this.fooditems[i].cartnum --;
                         }
                     }
                 }
             }
         },
+        // 提交订单
         sublist() {
             if(this.islasttime == true) {
-                alert('订餐已结束');
+                this.$layer.msg('订餐已结束');
                 return false;
             }
             if(this.nocartnum == true) {
-                alert("请选择套餐");
+                this.$layer.msg("请选择套餐");
                 return false;
             }
-            alert('订单提交成功！');
-            // this.$http.post('/cartitems',cartitems).then((response) => {
-            //     console.log(response);
-            // })
+            this.diffvalue.forEach((val,index) => {
+                this.cartitems.forEach((cartval,cartindex) => {
+                    if(val.id == cartval.id) {
+                        var temp = cartval.cartnum - val.value;
+                        val.value = temp;
+                    }
+                })
+            })
+            var params = {
+                account: this.username,
+                cartlist: this.cartitems,
+                diffvalue: this.diffvalue
+            };
+            this.$http.post('/consumer/setcartfood',params).then((response) => {
+                this.$layer.msg('订单提交成功！');
+                this.fooditems.forEach((val,index) => {   //更新菜品上的已售
+                    this.diffvalue.forEach((diffval,index) => {
+                        if(val.id == diffval.id) {
+                            val.salenum = val.salenum + diffval.value;
+                        }
+                    })
+                })
+                this.diffvalue.forEach((val,index) => {    //更新菜品上的购物车数量
+                    this.cartitems.forEach((cartval,cartindex) => {
+                        if(val.id == cartval.id) {
+                            val.value = cartval.cartnum;
+                        }
+                    })
+                })
+            })
         }
     }
 }
 </script>
-<style src='../assets/css/consumer.css'>
+<style scoped src='../assets/css/consumer.css'>
 </style>
