@@ -32,7 +32,7 @@
                 </BaseInputText>
             </li>
             <li>
-                <BaseSwitchBtn v-on:switchchange='switchauthority'>操作员权限</BaseSwitchBtn>
+                <BaseSwitchBtn>操作员权限</BaseSwitchBtn>
             </li>
             <li>
                 <BaseInputText>
@@ -61,14 +61,16 @@ export default {
             name: '',
             phone: '',
             account: '',
-            authority: 0,
+            authority: true,
             remark: ''
         }
     },
+    created() {
+        Bus.$on('switchchange',(authority) => {console.log(authority)
+            this.authority = authority;
+        })
+    },
     methods: {
-        switchauthority(authority) {
-            this.authority = Number(authority);
-        },
         syschronousval() {
             this.account = this.name;
         },
@@ -97,9 +99,11 @@ export default {
                 name: this.name,
                 phone: this.phone,
                 account: this.account,
+                password: this.account,
                 authority: this.authority,
                 remark: this.remark,
             }
+            console.log(params)
             this.$http.post('/system/addnewuser',params).then((response) => {
                 if(response.data.status == '1') {
                     this.$layer.closeAll();

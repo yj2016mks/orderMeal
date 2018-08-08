@@ -3,6 +3,9 @@
         <div class="header-wrap">
             <BaseNavHeader>
                 <template slot='navbtn'>
+                    <span v-if='auth'><router-link :to='{path:"/consumer",query:{name:accountname,auth:auth}}'>去订餐</router-link></span>
+                </template>
+                <template slot='navbtn'>
                     <span><router-link to='/'><i class="iconfont icon-yonghutouxiang"></i></router-link></span>
                 </template>
             </BaseNavHeader>
@@ -43,7 +46,8 @@
         data() {
             return {
                 deadlines:'',
-                accountname: 'operator' ,
+                accountname: '' ,
+                auth: '',
                 currentTab: 'ManagementOrder',
                 tabs: [{
                             name: 'ManagementOrder',
@@ -56,6 +60,10 @@
                             value: '系统设置'
                     }]
             }
+        },
+        created() {
+            this.accountname = this.$route.query.name;
+            this.auth = this.$route.query.auth;
         },
         components: {
             ManagementOrder,

@@ -45,17 +45,38 @@ export default {
         name:this.username,
         password:this.userpwd
       }
-      this.$http.post('/login',params).then((response) => {
+      this.$http.post('/login',params).then((response) => {console.log(response.data)
         if(response.data.status == '0') {
           this.errtip = response.data.msg;
         } else {
           this.errtip = response.data.msg;
-          this.$router.push({
-            path:'/myitems',
-            query:{
-              name:this.username
+          if(response.data.status == 1) {
+            if(response.data.result.authority == true) {
+              this.$router.push({
+                path:'/operator',
+                query:{
+                  name:this.username,
+                  auth:true
+                }
+              })
+            } else {
+              this.$router.push({
+                path:'/consumer',
+                query:{
+                  name:this.username,
+                  auth:false
+                }
+              })
             }
-          })
+            
+          } else if(response.data.status == 2){
+            this.$router.push({
+              path:'/system',
+              query:{
+                name:this.username
+              }
+            })
+          }
         }
       })
     }

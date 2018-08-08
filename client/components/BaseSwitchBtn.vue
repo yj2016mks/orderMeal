@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         switchBtn(event) {
-            this.switchBtnOn = !this.switchBtnOn;
+            this.switchBtnOn = !this.switchBtnOn;console.log(this.switchBtnOn)
             Bus.$emit('switchchange',this.switchBtnOn)
         }
     }

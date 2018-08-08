@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var System = require('../models/usersystem');
+var UserConsumer = require('../models/userconsumer');
 
 
 router.get('/',function(req,res,next) {
@@ -12,7 +12,7 @@ router.get('/',function(req,res,next) {
         var param = {};
     }
     
-    System.find(param,function(err,doc) {
+    UserConsumer.find(param,function(err,doc) {
         if(err) {
             res.json({
                 status:'0',
@@ -31,7 +31,7 @@ router.get('/',function(req,res,next) {
 router.post('/addnewuser',function(req,res,next) {
     if(req.body) {
         var params = req.body;
-        var newuserparam = new System(params);
+        var newuserparam = new UserConsumer(params);
         newuserparam.save(function(err,doc) {
             if(err) {
                 res.json({
@@ -52,7 +52,7 @@ router.post('/addnewuser',function(req,res,next) {
 router.post('/deletuser',function(req,res,next) {
     if(req.body) {
         var param = req.body;
-        System.findOne(param,function(err,doc) {
+        UserConsumer.findOne(param,function(err,doc) {
             if(err) {
                 res.json({
                     status:'0',
@@ -60,7 +60,7 @@ router.post('/deletuser',function(req,res,next) {
                 })
             } else {
                 if(doc) {
-                    System.remove(doc,function(err,deletdoc) {
+                    UserConsumer.remove(doc,function(err,deletdoc) {
                         if(err) {
                             res.json({
                                 status:'0',

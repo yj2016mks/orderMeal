@@ -79,14 +79,14 @@ router.post('/setcartfood',function(req,res,next) {
             })
         })
         promise.then(savefood)
-                .then((jsonparams)=>{
+                .then((jsonparams) => {
                     res.json(jsonparams);
-                }).catch((err => {
+                }).catch((err) => {
                     res.json({
                         status:'0',
                         msg:err
                     });
-                }));
+                });
     }
 })
 module.exports = router;

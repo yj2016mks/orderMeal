@@ -1,4 +1,5 @@
 @import url("public.css");
+.hid{display: none;}
 .main-wrap{
     width: 100%;
 }

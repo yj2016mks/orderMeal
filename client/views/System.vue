@@ -40,7 +40,10 @@
                             <td>{{item.name}}</td>
                             <td>{{item.phone}}</td>
                             <td>{{item.account}}</td>
-                            <td>{{item.authority}}</td>
+                            <td>
+                                <div v-if='item.authority'>operator</div>
+                                <div v-else></div>
+                            </td>
                             <td>{{item.remark}}</td>
                             <td>
                                 <div>
@@ -190,5 +193,5 @@ export default {
     }
 }
 </script>
-<style scoped src='../assets/css/system.css'>
+<style src='../assets/css/system.css'>
 </style>

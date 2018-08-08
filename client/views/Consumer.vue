@@ -1,20 +1,21 @@
 <template>
     <div class="body-wrap">
         <div class="header-wrap">
-            <header>
-                <div class="head-logo"><i class="iconfont icon-yonghutouxiang"></i></div>
-                <div class="head-btn">
-                    <span v-if='usertype' onclick="javaScript:window.location.href='${ctx}/operator/index'">后台管理</span>
-                    <span v-else><router-link to='/'><i class="iconfont icon-yonghutouxiang"></i></router-link></span>
-                </div>
-            </header>
+            <BaseNavHeader>
+                <template slot='navbtn'>
+                    <span v-if='auth'><router-link :to='{path:"/operator",query:{name:accountname}}'>后台管理</router-link></span>
+                </template>
+                <template slot='navbtn'>
+                    <span><router-link to='/'><i class="iconfont icon-yonghutouxiang"></i></router-link></span>
+                </template>
+            </BaseNavHeader>
         </div>
         <div class="main-wrap">
             <div id="main">
                 <div class="clear-float dash-tip">
                     <div class="fl dash-name">
-                        <span class="name-head-max fl"><em>{{intercept}}</em></span>
-                        <span class="hello-font">你好,{{username}}</span>
+                        <span class="name-head-max fl"><em>{{accountname | intercept}}</em></span>
+                        <span class="hello-font">你好,{{accountname}}</span>
                     </div>
                     <div v-if='islasttime' class="fr dash-time"><span>订餐已结束</span></div>
                     <div v-else class="fr dash-time"><span>订餐将于<em>{{lasttime}}</em>结束</span></div>
@@ -72,8 +73,8 @@ export default {
     name: 'myitems',
     data () {
         return {
-            username: '',
-            usertype: false,
+            accountname: '',
+            auth: '',
             islasttime: false,
             nocartnum: false,
             lasttime: '18:30',
@@ -83,13 +84,14 @@ export default {
         }
     },
     created() {
-        this.username = this.$route.query.name;
+        this.accountname = this.$route.query.name;
+        this.auth = this.$route.query.auth;
         this.getlist();      //加载已有菜品
     },
     computed:{
-        intercept: function() {
-            return this.username.split('')[0];
-        }
+        // intercept: function() {
+        //     return this.accountname.split('')[0];
+        // }
     },
     methods: {
         //菜品列表 
@@ -127,7 +129,7 @@ export default {
             var that = this;
             return new Promise((resolve, reject) => {
                 var params = {
-                    account:this.username
+                    account:this.accountname
                 }
                 this.$http.get('/consumer/getcartlish',{params}).then((response) => {
                     if(response.data.status == 1) {
@@ -270,7 +272,7 @@ export default {
                 })
             })
             var params = {
-                account: this.username,
+                account: this.accountname,
                 cartlist: this.cartitems,
                 diffvalue: this.diffvalue
             };
