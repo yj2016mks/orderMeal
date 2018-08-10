@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var DashFood = require('../models/dashfood');
 var OperatorSystem = require('../models/operatorsystem');
+var CartFood = require('../models/cartfood');
 //菜品管理
 router.post('/addnewdash',function(req,res,next) {
     if(req.body) {
@@ -128,12 +129,64 @@ router.get('/getsystem',function(req,res,next) {
             })
         } else {
             if(doc) {
+                var myDate = new Date();
+                var servertime = myDate.getTime();
+                var setTime = doc[0].deadlines[doc[0].deadchecked].name;
+                var setTimearry = setTime.split(':');
+                var sethour = parseInt(setTimearry[0]);
+                var setminu = parseInt(setTimearry[1]);
+                var settime = myDate.setHours(sethour,setminu);
+                var diffms = settime - servertime;  //设置时间与当前时间的差值
+                
                 res.json({
                     status:'1',
-                    result:doc
+                    result:{countdown:diffms,opesystem:doc}
                 })
             }
         }
     })
+})
+function getcartfood() {
+    return new Promise((resolve, reject) => {
+        CartFood.find({},function(err,doc) {
+            if(err) {
+                res.json({
+                    status:'0',
+                    msg:err
+                })
+            } else {
+                if(doc) {
+                    res.json({
+                        status:'1',
+                        result:doc
+                    })
+                }
+            }
+        })
+    })
+}
+function getuserconsumer() {
+    return new Promise((resolve, reject) => {
+        CartFood.find({},function(err,doc) {
+            if(err) {
+                res.json({
+                    status:'0',
+                    msg:err
+                })
+            } else {
+                if(doc) {
+                    res.json({
+                        status:'1',
+                        result:doc
+                    })
+                }
+            }
+        })
+    })
+}
+//获得用户订单
+router.get('/getorder',function(req,res,next) {
+    
+        
 })
 module.exports = router;

@@ -124,7 +124,8 @@ export default {
                 seller: this.seller,
                 authority: this.authority,
                 remark: this.remark,
-                num: 0
+                num: 0,
+                shownoticebefore:true
             }
             this.$http.post('/operator/addnewdash',params).then((response) => {
                 if(response.data.status == '1') {

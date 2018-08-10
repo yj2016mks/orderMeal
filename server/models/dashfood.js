@@ -6,6 +6,7 @@ var dashfoodSchema = new mongoose.Schema({
   "seller":String,
   "remark":String,
   "authority":Boolean,
-  "num":Number
+  "num":Number,
+  "shownoticebefore":Boolean
 });
 module.exports = mongoose.model("DashFood",dashfoodSchema);

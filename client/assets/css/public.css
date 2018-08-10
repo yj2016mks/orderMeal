@@ -128,13 +128,13 @@ header>div{display: inline-block;}
 .head-btn span:last-child{
     margin-right: 0;
 }
-.head-btn span:last-child a{
+.head-btn span a{
     color: #fff;
 }
-.head-btn span:last-child a:visited ,a:hover,a:active{
+.head-btn span a:visited ,a:hover,a:active{
     color: #fff;
 }
-.head-btn span:last-child i{
+.head-btn span i{
     font-size: 18px;
 }
 .main-wrap{

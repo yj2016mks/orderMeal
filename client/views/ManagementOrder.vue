@@ -68,34 +68,9 @@ export default {
     name:'ManagementSystem',
     data() {
         return {
-            orderitems:[{
-                imgurl:'/static/images/超意兴二.jpg',
-                foodname:'超意兴',
-                seller:'套餐一',
-                remark:'不要辣',
-                num:12,
-                shownotice:false,
-                shownoticebefore:true
-            },{
-                imgurl:'/static/images/超意兴二.jpg',
-                foodname:'超意兴',
-                seller:'套餐二',
-                remark:'不要辣',
-                num:11,
-                shownotice:true,
-                shownoticebefore:true
-            }],
+            orderitems:[],
             orderusers:[{
                 name:'system',
-                foodname:'超意兴',
-                seller:'套餐一',
-                num:12,
-                createTime:'17:30',
-                phone:'1114444',
-                remark:'不要辣',
-                showmakesure:true
-            },{
-                name:'yang',
                 foodname:'超意兴',
                 seller:'套餐一',
                 num:12,
@@ -115,9 +90,34 @@ export default {
             }]
         }
     },
+    mounted() {
+        this.getdashlish();   //加载已有菜品
+    },
     methods: {
         makesure(item) {
             item.showmakesure = false;
+        },
+        getdashlish() {
+            var params = {
+                authority:true
+            }
+            this.$http.get('/operator/getdashlish',{params}).then((response) => {
+                if(response.data.status == 1) {
+                    var result = response.data.result;
+                    result.forEach(function(val,index) {
+                        var dashrarry = {};
+                        dashrarry.id = val._id;
+                        dashrarry.imgurl = val.imgurl;
+                        dashrarry.foodname = val.name;
+                        dashrarry.seller = val.seller;
+                        dashrarry.remark = val.remark;
+                        dashrarry.num = val.num;  
+                        dashrarry.shownotice = 
+                        dashrarry.shownoticebefore = val.shownoticebefore;
+                        this.orderitems.push(dashrarry);
+                    },this)
+                }
+            })
         },
         notice(item) {
             this.$layer.confirm("是否通知取餐", {

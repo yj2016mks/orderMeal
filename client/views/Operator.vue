@@ -18,7 +18,10 @@
                         <span class="hello-font">你好，{{accountname}}</span>
                     </div>
                     <div v-if='islasttime' class="fr dash-time"><span>订餐已结束</span></div>
-                    <div v-else class="fr dash-time"><span>订餐将于<em>{{deadlines}}</em>结束</span></div>
+                    <div v-else class="fr dash-time">
+                        <span>订餐将于<em>{{deadlines}}</em>结束</span>
+                        <span>剩余<em>{{countdown}}</em></span>
+                    </div>
                 </div>
                 <div class="tabswitch-wrap">
                     <ul class='tab-switch clear-float'>
@@ -45,7 +48,10 @@
         name:'newdash',
         data() {
             return {
+                diffms:0,
                 deadlines:'',
+                countdown:'',
+                islasttime:'',
                 accountname: '' ,
                 auth: '',
                 currentTab: 'ManagementOrder',
@@ -64,6 +70,8 @@
         created() {
             this.accountname = this.$route.query.name;
             this.auth = this.$route.query.auth;
+            this.gettime();
+            this.getcartlist();
         },
         components: {
             ManagementOrder,
@@ -76,16 +84,44 @@
             }
         },
         mounted() {
-            this.gettime();
         },
         methods: {
             gettime() {
                 this.$http.get('/operator/getsystem').then((response) => {console.log(response)
-                if(response.data.status == 1) {
-                    var result = response.data.result[0]
-                    this.deadlines = result.deadlines[result.deadchecked].name;
-                }
-            })
+                    if(response.data.status == 1) {
+                        var result = response.data.result;
+                        var opesystem = result.opesystem[0];
+                        this.deadlines = opesystem.deadlines[opesystem.deadchecked].name;   //订餐截止时间
+                        var diffms = result.countdown;
+                        var counttime = countdowntime();
+                        var that = this;
+                        function countdowntime() {
+                            return function() {
+                                if(diffms <= 0) {
+                                    that.islasttime = true;
+                                    var difftime = '0时0分0秒';
+                                } else{
+                                    diffms = diffms - 1000;
+                                    var seconds = Math.floor(diffms/1000%60);
+                                    var minutes = Math.floor(diffms/1000/60%60);
+                                    var hour = Math.floor(diffms/1000/60/60%60);
+                                    var difftime = hour + '时' + minutes + '分' + seconds + '秒';
+                                }
+                                that.countdown = difftime;      //倒计时时间
+                                setTimeout(counttime,1000)
+                            }
+                        };
+                        counttime();
+                    }
+                })
+            },
+            getcartlist() {
+                this.$http.get('/operator/getorder').then((response) => {console.log(response)
+                    // if(response.data.status == 1) {
+                    //     var result = response.data.result[0]
+                    //     this.deadlines = result.deadlines[result.deadchecked].name;
+                    // }
+                })
             }
         }
     }
