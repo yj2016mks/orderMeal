@@ -97,6 +97,8 @@
                         var result = response.data.result;
                         var opesystem = result.opesystem[0];
                         this.deadlines = opesystem.deadlines[opesystem.deadchecked].name;   //订餐截止时间
+                        var remindtime = opesystem.reminds[opesystem.remindchecked].name;   //订餐结束前提醒
+                        var remindtimems = parseInt(remindtime)*60*1000;                 //订餐结束前提醒（ms）
                         var diffms = result.countdown;
                         var counttime = countdowntime();
                         var that = this;
@@ -107,6 +109,9 @@
                                     that.islasttime = true;
                                     var difftime = '0时0分0秒';
                                 } else{
+                                    if(remindtimems == diffms) {
+                                        that.$layer.alert('离订餐截至还有' + remindtime + '分钟！');
+                                    }
                                     diffms = diffms - 1000;
                                     var seconds = Math.floor(diffms/1000%60);
                                     var minutes = Math.floor(diffms/1000/60%60);

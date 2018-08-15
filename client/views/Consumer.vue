@@ -72,7 +72,7 @@
 </template>
 
 <script>
-
+import Bus from '../router/bus.js'
 export default {
     name: 'myitems',
     data () {
@@ -99,8 +99,9 @@ export default {
     methods: {
         gettime() {
             var counttime = countdowntime();
-            var that = this;console.log(that)
+            var that = this;
             var diffms = '';
+            var remindtime = '';   //订餐结束前提醒
             var timer = '';
             function countdowntime() {
                 return function() {
@@ -108,8 +109,11 @@ export default {
                     that.$http.get('/operator/getsystem').then((response) => {
                         if(response.data.status == 1) {
                             var result = response.data.result;
+                            var opesystem = result.opesystem[0];
                             var deadlines = result.setTime;
+                            
                             if(that.deadlines == '') {   //第一次请求
+                                remindtime = opesystem.reminds[opesystem.remindchecked].name;
                                 that.deadlines = deadlines;   //订餐截止时间
                                 diffms = result.countdown;            //时间差(毫秒)
                             } else {
@@ -117,11 +121,18 @@ export default {
                                     that.deadlines = deadlines;
                                     diffms = result.countdown;
                                 }
+                                if(remindtime != opesystem.reminds[opesystem.remindchecked].name) {
+                                    remindtime = opesystem.reminds[opesystem.remindchecked].name;
+                                }
                             }
                             if(diffms <= 0) {
                                 that.islasttime = true;
                                 var difftime = '0时0分0秒';
                             } else{
+                                var remindtimems = parseInt(remindtime)*60*1000;console.log(remindtimems);console.log(diffms);
+                                if(remindtimems == diffms) {
+                                    that.$layer.alert('离订餐截至还有' + remindtime + '分钟！');
+                                }
                                 diffms = diffms - 1000;
                                 var seconds = Math.floor(diffms/1000%60);
                                 var minutes = Math.floor(diffms/1000/60%60);

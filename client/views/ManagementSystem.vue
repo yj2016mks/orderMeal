@@ -67,7 +67,7 @@ export default {
                 remindchecked:this.remindchecked,
                 authority:this.authority,
                 deadlines:this.deadlines,
-                reminds:this.deadlines
+                reminds:this.reminds
             }
             this.$http.post('/operator/setsystem',params).then((response) => {
                 if(response.data.status == 1) {
