@@ -22,4 +22,13 @@ app.use('/consumer', consumer);
 // 监听
 app.listen(3030, function () {
     console.log('success listen...3030');
+
+    // var counttime = countdowntime();
+    // function countdowntime() {
+    //     return function() {
+    //         console.log(1113)
+    //         timer = setTimeout(counttime,1000)
+    //     }
+    // };
+    // counttime();
 });

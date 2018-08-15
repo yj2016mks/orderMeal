@@ -18,7 +18,10 @@
                         <span class="hello-font">你好,{{accountname}}</span>
                     </div>
                     <div v-if='islasttime' class="fr dash-time"><span>订餐已结束</span></div>
-                    <div v-else class="fr dash-time"><span>订餐将于<em>{{lasttime}}</em>结束</span></div>
+                    <div v-else class="fr dash-time">
+                        <span>订餐将于<em>{{deadlines}}</em>结束</span>
+                        <span>剩余<em>{{countdown}}</em></span>
+                    </div>
                 </div>
                 <div class="content-wrap clear-float">
                     <ul id = "foodList" class="dishes-content fl">
@@ -69,15 +72,18 @@
 </template>
 
 <script>
+
 export default {
     name: 'myitems',
     data () {
         return {
             accountname: '',
             auth: '',
+            phone: '',
             islasttime: false,
             nocartnum: false,
-            lasttime: '18:30',
+            deadlines: '',
+            countdown:'',
             fooditems: [],       //菜品数据
             cartitems: [],       //要提交的订单数据
             diffvalue: []        //记录订单原始数据和要提交的数量的差别
@@ -86,14 +92,50 @@ export default {
     created() {
         this.accountname = this.$route.query.name;
         this.auth = this.$route.query.auth;
+        this.phone = this.$route.query.phone;
         this.getlist();      //加载已有菜品
-    },
-    computed:{
-        // intercept: function() {
-        //     return this.accountname.split('')[0];
-        // }
+        this.gettime();
     },
     methods: {
+        gettime() {
+            var counttime = countdowntime();
+            var that = this;console.log(that)
+            var diffms = '';
+            var timer = '';
+            function countdowntime() {
+                return function() {
+                    clearTimeout(timer);
+                    that.$http.get('/operator/getsystem').then((response) => {
+                        if(response.data.status == 1) {
+                            var result = response.data.result;
+                            var deadlines = result.setTime;
+                            if(that.deadlines == '') {   //第一次请求
+                                that.deadlines = deadlines;   //订餐截止时间
+                                diffms = result.countdown;            //时间差(毫秒)
+                            } else {
+                                if(deadlines != that.deadlines) {    //截止时间和上次的不一致时，将截止时间、时间差更新
+                                    that.deadlines = deadlines;
+                                    diffms = result.countdown;
+                                }
+                            }
+                            if(diffms <= 0) {
+                                that.islasttime = true;
+                                var difftime = '0时0分0秒';
+                            } else{
+                                diffms = diffms - 1000;
+                                var seconds = Math.floor(diffms/1000%60);
+                                var minutes = Math.floor(diffms/1000/60%60);
+                                var hour = Math.floor(diffms/1000/60/60%60);
+                                var difftime = hour + '时' + minutes + '分' + seconds + '秒';
+                            }
+                            that.countdown = difftime;      //倒计时时间
+                            timer = setTimeout(counttime,1000)
+                        }
+                    })
+                } 
+            }
+            counttime();
+        },
         //菜品列表 
         getdashlish() {
             return new Promise((resolve, reject) => {
@@ -176,6 +218,7 @@ export default {
             cartarry.name = item.name;
             cartarry.cartnum = item.cartnum;
             cartarry.remark = '';
+            cartarry.showmakesure = true;
             this.cartitems.push(cartarry);
             this.nocartnum = false;
         },
@@ -271,10 +314,13 @@ export default {
                     }
                 })
             })
+            var submitDate = new Date(); 
             var params = {
                 account: this.accountname,
                 cartlist: this.cartitems,
-                diffvalue: this.diffvalue
+                diffvalue: this.diffvalue,
+                phone: this.phone,
+                submitDate: submitDate
             };
             this.$http.post('/consumer/setcartfood',params).then((response) => {
                 this.$layer.msg('订单提交成功！');

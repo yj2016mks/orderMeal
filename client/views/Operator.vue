@@ -44,6 +44,8 @@
     import ManagementSystem from './ManagementSystem'
     import ManagementFood from './ManagementFood'
     import ManagementOrder from './ManagementOrder'
+    import Bus from '../router/bus.js'
+
     export default {
         name:'newdash',
         data() {
@@ -54,6 +56,7 @@
                 islasttime:'',
                 accountname: '' ,
                 auth: '',
+                timer: '',
                 currentTab: 'ManagementOrder',
                 tabs: [{
                             name: 'ManagementOrder',
@@ -71,7 +74,9 @@
             this.accountname = this.$route.query.name;
             this.auth = this.$route.query.auth;
             this.gettime();
-            this.getcartlist();
+            Bus.$on('countdown',() => {
+                this.gettime();
+            })
         },
         components: {
             ManagementOrder,
@@ -87,7 +92,7 @@
         },
         methods: {
             gettime() {
-                this.$http.get('/operator/getsystem').then((response) => {console.log(response)
+                this.$http.get('/operator/getsystem').then((response) => {
                     if(response.data.status == 1) {
                         var result = response.data.result;
                         var opesystem = result.opesystem[0];
@@ -97,6 +102,7 @@
                         var that = this;
                         function countdowntime() {
                             return function() {
+                                clearTimeout(that.timer);
                                 if(diffms <= 0) {
                                     that.islasttime = true;
                                     var difftime = '0时0分0秒';
@@ -108,19 +114,11 @@
                                     var difftime = hour + '时' + minutes + '分' + seconds + '秒';
                                 }
                                 that.countdown = difftime;      //倒计时时间
-                                setTimeout(counttime,1000)
+                                that.timer = setTimeout(counttime,1000)
                             }
                         };
                         counttime();
                     }
-                })
-            },
-            getcartlist() {
-                this.$http.get('/operator/getorder').then((response) => {console.log(response)
-                    // if(response.data.status == 1) {
-                    //     var result = response.data.result[0]
-                    //     this.deadlines = result.deadlines[result.deadchecked].name;
-                    // }
                 })
             }
         }

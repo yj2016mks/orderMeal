@@ -10,14 +10,14 @@
               </div>
               <div class="login-row">
                     <div class="login-input-box login-input-password-box">
-                      <input type="password" v-model='userpwd' name="password" class="login-input login-input-password login-input-password-tsa input-login" placeholder="密码" style="text-indent:10px;">
+                      <input type="password" v-model='userpwd' v-on:keyup.enter='getinfo' name="password" class="login-input login-input-password login-input-password-tsa input-login" placeholder="密码" style="text-indent:10px;">
                     </div>
               </div>
               <div class="login-row login-row-error">
                   <div class="error-msg error-msg-tsa">{{errtip}}</div>
               </div>
               <div class="login-row login-row-sub">
-                  <button type="button" @click='getinfo()' class="login-button login-button-tsa">login</button>
+                  <button type="button" @click='getinfo' class="login-button login-button-tsa">login</button>
               </div>
           </form>
           <div class="back" title="返回"></div>
@@ -36,9 +36,6 @@ export default {
       errtip:''
     }
   },
-  mounted(){
-      // this.getinfo();
-    },
   methods: {
     getinfo() {
       var params = {
@@ -56,7 +53,8 @@ export default {
                 path:'/operator',
                 query:{
                   name:this.username,
-                  auth:true
+                  auth:true,
+                  phone:response.data.result.phone
                 }
               })
             } else {
@@ -64,7 +62,8 @@ export default {
                 path:'/consumer',
                 query:{
                   name:this.username,
-                  auth:false
+                  auth:false,
+                  phone:response.data.result.phone
                 }
               })
             }

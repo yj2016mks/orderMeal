@@ -51,12 +51,13 @@ export default {
     methods: {
         getsystem() {
             this.$http.get('/operator/getsystem').then((response) => {
-                if(response.data.status == 1) {
-                    this.deadchecked = response.data.result[0].deadchecked,
-                    this.remindchecked = response.data.result[0].remindchecked,
-                    this.authority = response.data.result[0].authority,
-                    this.deadlines = response.data.result[0].deadlines,
-                    this.reminds = response.data.result[0].reminds
+                if(response.data.status == 1) {console.log(response)
+                    var result = response.data.result.opesystem[0];
+                    this.deadchecked = result.deadchecked,
+                    this.remindchecked = result.remindchecked,
+                    this.authority = result.authority,
+                    this.deadlines = result.deadlines,
+                    this.reminds = result.reminds
                 }
             })
         },
@@ -72,6 +73,7 @@ export default {
                 if(response.data.status == 1) {
                     this.$layer.closeAll();
                     this.$layer.msg("保存成功");
+                    Bus.$emit('countdown');
                 }
             })
         }

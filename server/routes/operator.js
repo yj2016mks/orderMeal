@@ -27,11 +27,37 @@ router.post('/addnewdash',function(req,res,next) {
 })
 router.get('/getdashlish',function(req,res,next) {
     if(req.query) {
-        var params = req.query
+        
+        if(req.query.num) {
+            var params = {
+                authority:req.query.authority,
+                num:{$gt:req.query.num}
+            }
+        } else {
+            var params = req.query
+        }
     } else {
         var params = {}
     }
     DashFood.find(params,function(err,doc) {
+        if(err) {
+            res.json({
+                status:'0',
+                msg:'格式错误'
+            })
+        } else {
+            if(doc) {
+                res.json({
+                    status:'1',
+                    result:doc
+                })
+            }
+        }
+    })
+})
+router.get('/updatedashlish',function(req,res,next) {
+    var params = req.query;
+    DashFood.update({_id:params.id},{'$set':{shownoticebefore:false}},function(err,doc) {
         if(err) {
             res.json({
                 status:'0',
@@ -120,7 +146,7 @@ router.post('/setsystem',function(req,res,next) {
         })
     }
 })
-router.get('/getsystem',function(req,res,next) {
+router.get('/getsystem',function(req,res,next) {console.log(224)
     OperatorSystem.find({},function(err,doc) {
         if(err) {
             res.json({
@@ -140,7 +166,7 @@ router.get('/getsystem',function(req,res,next) {
                 
                 res.json({
                     status:'1',
-                    result:{countdown:diffms,opesystem:doc}
+                    result:{setTime:setTime,countdown:diffms,opesystem:doc}
                 })
             }
         }
@@ -184,9 +210,5 @@ function getuserconsumer() {
         })
     })
 }
-//获得用户订单
-router.get('/getorder',function(req,res,next) {
-    
-        
-})
+
 module.exports = router;

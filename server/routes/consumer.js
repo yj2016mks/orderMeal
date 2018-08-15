@@ -6,8 +6,42 @@ var CartFood = require('../models/cartfood');
 //获得订餐清单
 router.get('/getcartlish',function(req,res,next) {
     if(req.query) {
-        var params = req.query
-        CartFood.find(params,function(err,doc) {
+        if(req.query.param == 'food') {    //订单管理点击菜品查询
+            var params = {
+                cartlist:{
+                    $elemMatch:{
+                        seller:req.query.seller,
+                        name:req.query.name
+                    }
+                }
+            };
+            var getparams = {"_id":1,"account":1,"phone":1,"submitDate":1,"cartlist.$":1}
+        } else {
+            var params = req.query;
+            var getparams = {}
+        }
+        CartFood.find(params,getparams,function(err,doc) {
+            if(err) {
+                res.json({
+                    status:'0',
+                    msg:'格式错误'
+                })
+            } else {
+                if(doc) {
+                    res.json({
+                        status:'1',
+                        result:doc
+                    })
+                }
+            }
+        })
+    }
+})
+//确认取餐
+router.post('/makesure',function(req,res,next) {
+    if(req.body) {
+        var params = req.body;
+        CartFood.update({_id:params.accountid,cartlist:{$elemMatch:{ id:params.cartid}}},{$set:{"cartlist.$.showmakesure":false}},function(err,doc) {
             if(err) {
                 res.json({
                     status:'0',
@@ -51,7 +85,7 @@ function savefood(diffvalue) {
 router.post('/setcartfood',function(req,res,next) {
     if(req.body) {
         var doc = '';
-        var params = req.body;console.log(params)
+        var params = req.body;
         var promise = new Promise((resolve, reject) => {
             CartFood.findOne({'account': params.account},function(finderr,finddoc) {
                 if(finderr) {
