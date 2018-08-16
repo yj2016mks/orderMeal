@@ -1,6 +1,10 @@
-# mypage
+## 前言
 
-> personal home page
+>最近自学vue，将以前一个jq订餐系统改为vue的。
+>不同角色登录不同的页面，分为管理员、操作员、订餐人员，操作员能订餐。管理员的账户是直接从数据库写入的。
+
+## 技术栈
+>vue2 + vue-router + bus + webpack + express + mongoose
 
 ## Build Setup
 
@@ -20,7 +24,7 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-# 搭建vue项目
+## 搭建vue项目
 
 ``` bash
 创建基于webpack模版的项目
@@ -31,7 +35,7 @@ cd firstapp
 npm install
 npm run dev
 ```
-# 集成express
+## 集成express
 ``` bash
 修改文件结构
 将src文件夹修改为client
@@ -48,7 +52,7 @@ server目录下新建一个文件夹，命名为routes，新建文件login.js
 ```
 
 
-# 打包
+## 打包运行
 ``` bash
 npm run build
 node server/app.js
