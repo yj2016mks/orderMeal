@@ -42,7 +42,7 @@ export default {
         name:this.username,
         password:this.userpwd
       }
-      this.$http.post('/login',params).then((response) => {console.log(response.data)
+      this.$http.post('/login',params).then((response) => {
         if(response.data.status == '0') {
           this.errtip = response.data.msg;
         } else {

@@ -146,7 +146,7 @@ router.post('/setsystem',function(req,res,next) {
         })
     }
 })
-router.get('/getsystem',function(req,res,next) {console.log(224)
+router.get('/getsystem',function(req,res,next) {
     OperatorSystem.find({},function(err,doc) {
         if(err) {
             res.json({

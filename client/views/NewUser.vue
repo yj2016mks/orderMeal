@@ -66,7 +66,7 @@ export default {
         }
     },
     created() {
-        Bus.$on('switchchange',(authority) => {console.log(authority)
+        Bus.$on('switchchange',(authority) => {
             this.authority = authority;
         })
     },
@@ -103,7 +103,6 @@ export default {
                 authority: this.authority,
                 remark: this.remark,
             }
-            console.log(params)
             this.$http.post('/system/addnewuser',params).then((response) => {
                 if(response.data.status == '1') {
                     this.$layer.closeAll();

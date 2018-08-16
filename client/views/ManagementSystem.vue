@@ -51,7 +51,7 @@ export default {
     methods: {
         getsystem() {
             this.$http.get('/operator/getsystem').then((response) => {
-                if(response.data.status == 1) {console.log(response)
+                if(response.data.status == 1) {
                     var result = response.data.result.opesystem[0];
                     this.deadchecked = result.deadchecked,
                     this.remindchecked = result.remindchecked,

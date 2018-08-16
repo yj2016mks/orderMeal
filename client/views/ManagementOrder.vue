@@ -79,12 +79,11 @@ export default {
         this.getcartlish();   //加载购物清单
     },
     methods: {
-        makesure(item) {console.log(item)
+        makesure(item) {
             var params = {
                 accountid:item.accountid,
                 cartid:item.cartid
             }
-            console.log(params)
             this.$http.post('/consumer/makesure',params).then((response) => {
                 if(response.data.status == 1) {
                     item.showmakesure = false;

@@ -129,7 +129,7 @@ export default {
                                 that.islasttime = true;
                                 var difftime = '0时0分0秒';
                             } else{
-                                var remindtimems = parseInt(remindtime)*60*1000;console.log(remindtimems);console.log(diffms);
+                                var remindtimems = parseInt(remindtime)*60*1000;
                                 if(remindtimems == diffms) {
                                     that.$layer.alert('离订餐截至还有' + remindtime + '分钟！');
                                 }
