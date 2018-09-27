@@ -51,6 +51,8 @@ npm install express --save
 server目录下新建一个文件夹，命名为routes，新建文件login.js
 ```
 
+打开数据库：
+mongod –config c:\MongoBD\etc\mongo.config
 
 ## 打包运行
 ``` bash
