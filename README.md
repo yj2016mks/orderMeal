@@ -59,3 +59,9 @@ mongod –config c:\MongoBD\etc\mongo.config
 npm run build
 node server/app.js
 ```
+## 页面展示
+!{image}(https://github.com/yj2016mks/orderMeal/tree/master/gif/system创建用户.gif)
+!{image}(https://github.com/yj2016mks/orderMeal/tree/master/gif/操作员操作菜品和系统设置.gif)
+!{image}(https://github.com/yj2016mks/orderMeal/tree/master/gif/操作员创建菜品.gif)
+!{image}(https://github.com/yj2016mks/orderMeal/tree/master/gif/通知取餐.gif)
+!{image}(https://github.com/yj2016mks/orderMeal/tree/master/gif/用户订餐.gif)
